@@ -1,38 +1,102 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+:root {
+  --twitter-blue: #1da1f2;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-size: 16px;
+  font-family: Poppins, sans-serif;
+  background: var(--twitter-blue);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
+  width: 750px;
+  margin: 40px auto;
+}
+
+.app-name {
+  color: white;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.app-name img {
+  width: 50px;
+  height: 50px;
+  margin-right: 20px;
+}
+
+.message-form {
+}
+
+.message-field {
+  width: 100%;
+  border: 0;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  font-family: inherit;
+  font-size: inherit;
+  resize: vertical;
+  height: 100px;
+}
+.message-field::placeholder {
+  color: #999;
+}
+
+.message-send {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.message-chars-remaining {
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  margin-right: 20px;
+}
+
+.message-send-btn {
+  background: white;
+  border: 0;
+  color: var(--twitter-blue);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.messages-list {
+  text-align: left;
+  margin-top: 50px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.messages-list-title {
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 15px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.messages-list-msg {
+  display: flex;
+  margin-bottom: 20px;
+}
+.messages-list-msg .msg-date {
+  color: #ddd;
+  margin-right: 30px;
 }
