@@ -50,20 +50,20 @@ spec:
         kustomize edit add annotation "app.openshift.io/vcs-uri:$(params.source-repo)"
         kustomize edit add annotation "app.openshift.io/vcs-ref:$(params.commit)"
 
-        kustomize build > manifest.yaml
+        kustomize build > manifest-$(params.folder).yaml
 
-        if [ -f manifest.yaml ]; then
-          echo "manifests.yaml successfully generated"
+        if [ -f manifest-$(params.folder).yaml ]; then
+          echo "manifest-$(params.folder).yaml successfully generated"
           echo "contents of manifests is:"
-          cat manifest.yaml
+          cat manifest-$(params.folder).yaml
         else
-          echo "ERROR: manifest.yaml not generated"
+          echo "ERROR: manifest-$(params.folder).yaml not generated"
           exit 1
         fi
     - name: manifest-to-results
       image: quay.io/upslopeio/kustomize:latest
       script: |
-        echo -n "$(params.folder)/k8s/manifest.yaml" > $(results.manifest.path)
+        echo -n "$(params.folder)/k8s/manifest-$(params.folder).yaml" > $(results.manifest.path)
   workspaces:
     - name: source
       description: contains the cloned git repo
