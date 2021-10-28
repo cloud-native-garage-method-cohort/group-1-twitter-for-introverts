@@ -187,6 +187,9 @@ async def diagram(
 def get_root():
     return {"message": "This is the twitter for introverts backend."}
 
+@app.get("/posts")
+def get_posts(posts):
+    return {"These are the latest posts": str(posts)}
 
 @app.get("/healthz")
 def health_check_for_kubernetes():
