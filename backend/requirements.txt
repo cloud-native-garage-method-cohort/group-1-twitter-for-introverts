@@ -1,0 +1,8 @@
+uvicorn
+fastapi
+diagrams
+passlib
+pydantic
+python-jose
+python-multipart
+graphviz
