@@ -46,7 +46,7 @@ spec:
             failureThreshold: 3
             httpGet:
               port: http
-              path: /
+              path: /readyz
               scheme: HTTP
             periodSeconds: 10
             successThreshold: 1

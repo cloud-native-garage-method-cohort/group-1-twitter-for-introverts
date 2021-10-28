@@ -200,26 +200,37 @@ mydemo = client.create_database("tweets")
 
 @app.post("/")
 def post(message: str):
-    mydemo.create_document({"message": message, "date": pendulum.now().to_w3c_string()})
+    if len(message) > 10:
+        raise HTTPException(
+            status_code=400,
+            detail=f"You sent {len(message)} characters. Max 10 characters allowed!",
+        )
+    result = mydemo.create_document(
+        {"message": message, "date": pendulum.now().to_w3c_string()}
+    )
+    return {"id": result["_id"]}
 
 
 @app.get("/")
-def get():
-    return "Welcome"
+def get_posts():
+    result = []
 
+    for doc in mydemo:
+        result.append(
+            {"id": doc["_id"], "message": doc["message"], "date": doc["date"]}
+        )
 
-@app.get("/posts")
-def get_posts(message: str):
-    return mydemo.all_docs()
+    return result
 
 
 @app.get("/post_count")
-def count(posts):
+def count():
     return {"Count": mydemo.all_docs().get("total_rows")}
 
 
-@app.get("/healthz")
+@app.get("/readyz")
 def health_check_for_kubernetes():
+
     return {"isHealthy": True}
 
 
