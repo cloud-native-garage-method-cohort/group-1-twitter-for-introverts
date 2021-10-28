@@ -13,9 +13,6 @@ RUN set -xe \
 
 COPY ./app /code/app
 
-EXPOSE 80/tcp
+EXPOSE 3000/tcp
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
-
-# If running behind a proxy like Nginx use --proxy-headers
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--proxy-headers"]
+CMD ["uvicorn", "app.main:app", "--port", "3000"]
