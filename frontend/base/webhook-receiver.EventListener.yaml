@@ -31,7 +31,7 @@ spec:
           - name: app-name
             value: twitter-for-introverts-frontend
           - name: image-repo
-            value: quay.io/repository/james_grimshaw_ibm/group-1-twitter-introverts
+            value: quay.io/james_grimshaw_ibm/group-1-twitter-introverts
           - name: source-repo
             value: $(tt.params.source-repo)
           - name: sha
