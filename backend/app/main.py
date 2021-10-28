@@ -8,6 +8,11 @@ from fastapi.responses import Response
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from pydantic import BaseModel
+from cloudant.client import Cloudant
+from cloudant.error import CloudantException
+from cloudant.result import Result, ResultByKey
+import pendulum
+
 
 from app.diags import get_example_diagram
 
@@ -181,6 +186,21 @@ async def diagram(
 #
 # KUBERNETES and misc
 #
+
+
+client = Cloudant.iam(
+    "b0582852-4032-4e6a-9bad-24f684aec520-bluemix",
+    "Z_noNs4OPhDGYd7ZEkudJi-qytdR_OUekHqWR-VI_mKP",
+    connect=True,
+)
+client.connect()
+
+mydemo = client.create_database("tweets")
+
+
+@app.post("/")
+def post(message: str):
+    mydemo.create_document({"message": message, "date": pendulum.now().to_w3c_string()})
 
 
 @app.get("/")
