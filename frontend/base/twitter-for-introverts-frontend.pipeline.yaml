@@ -35,6 +35,7 @@ spec:
         - git-clone
       taskRef:
         name: buildah
+        kind: ClusterTask
       params:
         - name: IMAGE
           value: "$(params.image-repo):$(tasks.git-clone.results.commit)"
