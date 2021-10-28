@@ -205,12 +205,17 @@ def post(message: str):
 
 @app.get("/")
 def get(message: str):
-    return mydemo.all_docs
+    return "Welcome."
 
 
 @app.get("/posts")
-def return_posts(posts):
-    return {"These are the latest posts": len(mydemo.all_docs)}
+def get_posts(message: str):
+    return mydemo.all_docs()
+
+
+@app.get("/post_count")
+def count(posts):
+    return {"Count": mydemo.all_docs().get("total_rows")}
 
 
 @app.get("/healthz")
