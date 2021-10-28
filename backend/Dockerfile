@@ -15,4 +15,4 @@ COPY ./app /code/app
 
 EXPOSE 3000/tcp
 
-CMD ["uvicorn", "app.main:app", "--port", "3000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "3000"]
