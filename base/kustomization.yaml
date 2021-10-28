@@ -6,6 +6,7 @@ resources:
   - create-configuration.Task.yaml
   - deploy.Task.yaml
   - twitter-for-introverts-frontend.pipeline.yaml
+  - twitter-for-introverts-backend.pipeline.yaml
   - quay-io-credentials.Secret.yaml
   - webhook-receiver.EventListener.yaml
   - save-configuration.Task.yaml

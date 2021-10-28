@@ -1,0 +1,35 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: twitter-for-introverts-backend-run-
+spec:
+  serviceAccountName: build-bot-backend
+  params:
+    - name: app-name
+      value: twitter-for-introverts-backend
+    - name: source-repo
+      value: https://github.com/cloud-native-garage-method-cohort/group-1-twitter-for-introverts
+    - name: image-repo
+      value: quay.io/repository/james_grimshaw_ibm/group-1-twitter-introverts-backend
+  pipelineRef:
+    name: twitter-for-introverts-backend
+  workspaces:
+    - name: pipeline-shared-data
+      volumeClaimTemplate:
+        specs:
+          resources:
+            requests:
+              storage: 1Gi
+          accessModes:
+            - ReadWriteOnce
+    - name: gitops-repository
+      volumeClaimTemplate:
+        spec:
+          resources:
+            requests:
+              storage: 1Gi
+          accessModes:
+            - ReadWriteOnce
+    - name: git-credentials
+      secret:
+        secretName: git-credentials

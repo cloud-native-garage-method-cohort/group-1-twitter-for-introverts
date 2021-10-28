@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: twitter-for-introverts-frontend
+  name: twitter-for-introverts-backend
 spec:
   params:
     - name: app-name
@@ -40,9 +40,9 @@ spec:
         - name: IMAGE
           value: "$(params.image-repo):$(tasks.git-clone.results.commit)"
         - name: DOCKERFILE
-          value: ./frontend/Dockerfile
+          value: ./backend/Dockerfile
         - name: CONTEXT
-          value: ./frontend
+          value: ./backend
       workspaces:
         - name: source
           workspace: pipeline-shared-data
@@ -56,6 +56,8 @@ spec:
           value: "$(tasks.git-clone.results.commit)"
         - name: image-repo
           value: "$(params.image-repo)"
+        - name: folder
+          value: backend
       runAfter:
         - create-image
       taskRef:

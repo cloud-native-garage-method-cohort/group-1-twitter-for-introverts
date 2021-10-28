@@ -9,6 +9,10 @@ spec:
         name: webhook-receiver
       bindings:
         - ref: webhook-receiver
+    - template:
+        name: webhook-receiver-backend
+      bindings:
+        - ref: webhook-receiver-backend
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
@@ -38,6 +42,55 @@ spec:
             value: $(tt.params.sha)
         pipelineRef:
           name: twitter-for-introverts-frontend
+        workspaces:
+          - name: pipeline-shared-data
+            volumeClaimTemplate:
+              spec:
+                resources:
+                  requests:
+                    storage: 1Gi
+                accessModes:
+                  - ReadWriteOnce
+          - name: gitops-repository
+            volumeClaimTemplate:
+              spec:
+                resources:
+                  requests:
+                    storage: 1Gi
+                accessModes:
+                  - ReadWriteOnce
+          - name: git-credentials
+            secret:
+              secretName: git-credentials
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: webhook-receiver-backend
+spec:
+  params:
+    - name: source-repo
+      description: Source code repository
+    - name: sha
+      description: Precise SHA of the commit to build
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: twitter-for-introverts-backend-run-
+      spec:
+        serviceAccountName: build-bot-backend
+        params:
+          - name: app-name
+            value: twitter-for-introverts-backend
+          - name: image-repo
+            value: quay.io/james_grimshaw_ibm/group-1-twitter-introverts-backend
+          - name: source-repo
+            value: $(tt.params.source-repo)
+          - name: sha
+            value: $(tt.params.sha)
+        pipelineRef:
+          name: twitter-for-introverts-backend
         workspaces:
           - name: pipeline-shared-data
             volumeClaimTemplate:

@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: twitter-for-introverts-backend
+spec:
+  tls:
+    termination: edge
+  to:
+    name: twitter-for-introverts-backend
+    kind: Service
+    weight: 100
+  wildcardPolicy: None

@@ -12,6 +12,8 @@ spec:
       description: contains the full image repository (without :tag)
     - name: source-repo
       description: Source git repository
+    - name: folder
+      description: folder of the subproject
   results:
     - name: manifest
       description: The path to the yaml file
@@ -30,7 +32,7 @@ spec:
           fi
         }
 
-        cd source/k8s
+        cd source/$(params.folder)/k8s
 
         if [ -f kustomization.yaml ] || [ -f kustomization.yml ] || [ -f Kustomization ]; then
           echo "Kustomization file found."
@@ -61,7 +63,7 @@ spec:
     - name: manifest-to-results
       image: quay.io/upslopeio/kustomize:latest
       script: |
-        echo -n "k8s/manifest.yaml" > $(results.manifest.path)
+        echo -n "$(params.folder)/k8s/manifest.yaml" > $(results.manifest.path)
   workspaces:
     - name: source
       description: contains the cloned git repo
