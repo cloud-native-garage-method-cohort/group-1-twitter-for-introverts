@@ -12,11 +12,11 @@ spec:
     - name: image-repo
       value: quay.io/repository/james_grimshaw_ibm/group-1-twitter-introverts
   pipelineRef:
-    name: express
+    name: twitter-for-introverts-frontend
   workspaces:
     - name: pipeline-shared-data
       volumeClaimTemplate:
-        spec:
+        specs:
           resources:
             requests:
               storage: 1Gi
