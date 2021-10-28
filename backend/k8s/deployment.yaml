@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.openshift.io/runtime: py
+    app.openshift.io/runtime: python
   name: twitter-for-introverts-backend
 spec:
   replicas: 1
