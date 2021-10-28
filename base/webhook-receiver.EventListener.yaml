@@ -12,7 +12,7 @@ spec:
     - template:
         name: webhook-receiver-backend
       bindings:
-        - ref: webhook-receiver-backend
+        - ref: webhook-receiver
 ---
 apiVersion: triggers.tekton.dev/v1alpha1
 kind: TriggerTemplate
