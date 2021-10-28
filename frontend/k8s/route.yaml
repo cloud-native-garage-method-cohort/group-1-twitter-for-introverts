@@ -1,12 +1,12 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: express-sample-app
+  name: twitter-for-introverts-frontend
 spec:
   tls:
     termination: edge
   to:
-    name: express-sample-app
+    name: twitter-for-introverts-frontend
     kind: Service
     weight: 100
   wildcardPolicy: None

@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: express
+  name: twitter-for-introverts-frontend
 spec:
   params:
     - name: app-name
@@ -21,6 +21,7 @@ spec:
     - name: git-clone
       taskRef:
         name: git-clone
+        kind: ClusterTask
       workspaces:
         - name: output
           workspace: pipeline-shared-data
@@ -34,9 +35,14 @@ spec:
         - git-clone
       taskRef:
         name: buildah
+        kind: ClusterTask
       params:
         - name: IMAGE
           value: "$(params.image-repo):$(tasks.git-clone.results.commit)"
+        - name: DOCKERFILE
+          value: ./frontend/Dockerfile
+        - name: CONTEXT
+          value: ./frontend
       workspaces:
         - name: source
           workspace: pipeline-shared-data

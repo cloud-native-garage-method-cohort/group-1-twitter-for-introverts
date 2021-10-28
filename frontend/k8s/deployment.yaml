@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app.openshift.io/runtime: js
-  name: express-sample-app
+  name: twitter-for-introverts-frontend
 spec:
   replicas: 1
   selector:
@@ -21,7 +21,7 @@ spec:
       dnsPolicy: ClusterFirst
       schedulerName: default-scheduler
       containers:
-        - name: express-sample-app
+        - name: twitter-for-introverts-frontend
           image: quay.io/upslopeio/express-sample-app:d90c742ee626048c4d1e2032eb836255e4036561
           ports:
             - name: http
