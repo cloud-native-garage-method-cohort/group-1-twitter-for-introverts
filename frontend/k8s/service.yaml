@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: express-sample-app
+  name: twitter-for-introverts-frontend
 spec:
   type: ClusterIP
   selector:

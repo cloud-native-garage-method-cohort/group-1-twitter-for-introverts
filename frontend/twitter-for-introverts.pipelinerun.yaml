@@ -1,16 +1,16 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: florian-lutz-express-sample-app-
+  generateName: twitter-for-introverts-frontend-run-
 spec:
   serviceAccountName: build-bot
   params:
     - name: app-name
-      value: express-sample-app
+      value: twitter-for-introverts-frontend
     - name: source-repo
-      value: https://github.com/cloud-native-garage-method-cohort/florian-lutz-express-pipeline
+      value: https://github.com/cloud-native-garage-method-cohort/group-1-twitter-for-introverts
     - name: image-repo
-      value: quay.io/fluxens0/express-sample-app
+      value: quay.io/repository/james_grimshaw_ibm/group-1-twitter-introverts
   pipelineRef:
     name: express
   workspaces:
