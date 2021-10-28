@@ -203,9 +203,14 @@ def post(message: str):
     mydemo.create_document({"message": message, "date": pendulum.now().to_w3c_string()})
 
 
+@app.get("/")
+def get(message: str):
+    return mydemo.all_docs
+
+
 @app.get("/posts")
-def get_posts(posts):
-    return {"These are the latest posts": str(posts)}
+def return_posts(posts):
+    return {"These are the latest posts": len(mydemo.all_docs)}
 
 
 @app.get("/healthz")
