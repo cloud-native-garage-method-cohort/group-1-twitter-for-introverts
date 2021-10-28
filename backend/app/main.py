@@ -204,8 +204,8 @@ def post(message: str):
 
 
 @app.get("/")
-def get(message: str):
-    return "Welcome."
+def get():
+    return "Welcome"
 
 
 @app.get("/posts")
