@@ -85,12 +85,12 @@ def get_posts():
 # DELETE / -- Delete a post
 
 
-@app.get("/delete/{id}")
+@app.delete("/delete/{id}")
 def delete(id: str):
     try:
         doc_to_delete = tweets_db[id]
         doc_to_delete.delete()
-    except:
+    except KeyError:
         raise HTTPException(
             status_code=404,
             detail=f"Tweet with {id} does not exist",
