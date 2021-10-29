@@ -82,6 +82,21 @@ def get_posts():
     return {"total_messages": total_messages, "messages": messages_formatted}
 
 
+# DELETE / -- Delete a post
+
+
+@app.delete("/delete/{id}")
+def delete(id: str):
+    try:
+        doc_to_delete = tweets_db[id]
+        doc_to_delete.delete()
+    except KeyError:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Tweet with {id} does not exist",
+        )
+
+
 # POST / -- Add new post to the DB
 class NewMessagePostData(BaseModel):
     message: str
