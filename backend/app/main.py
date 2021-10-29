@@ -70,7 +70,7 @@ def get_posts():
     messages = messages_query["rows"]
     messages_formatted = []
 
-    for message in sorted(messages, key=dk):
+    for message in sorted(messages, key=dk, reverse=True):
         messages_formatted.append(
             {
                 "id": message["id"],
