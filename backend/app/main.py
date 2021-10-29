@@ -33,13 +33,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup():
     pass
 
+
 @app.on_event("shutdown")
 async def shutdown():
     pass
+
 
 #
 # KUBERNETES and misc
@@ -60,21 +63,29 @@ tweets_db = client.create_database("tweets")
 def get_posts():
     messages_query = tweets_db.all_docs(descending=True, include_docs=True)
 
+    def dk(elem):
+        return pendulum.parse(elem["doc"]["date"])
+
     total_messages = messages_query["total_rows"]
     messages = messages_query["rows"]
     messages_formatted = []
 
-    for message in messages:
+    for message in sorted(messages, key=dk):
         messages_formatted.append(
-            {"id": message["id"], "message": message["doc"]["message"], "date": message["doc"]["date"]}
+            {
+                "id": message["id"],
+                "message": message["doc"]["message"],
+                "date": message["doc"]["date"],
+            }
         )
 
-    return {"total_messages": total_messages, "messages": messages_formatted }
+    return {"total_messages": total_messages, "messages": messages_formatted}
 
 
 # POST / -- Add new post to the DB
 class NewMessagePostData(BaseModel):
     message: str
+
 
 @app.post("/")
 def post(data: NewMessagePostData):
