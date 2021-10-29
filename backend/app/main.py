@@ -89,10 +89,10 @@ class NewMessagePostData(BaseModel):
 
 @app.post("/")
 def post(data: NewMessagePostData):
-    if len(data.message) > 10:
+    if len(data.message) > 10 or len(data.message) < 1:
         raise HTTPException(
             status_code=400,
-            detail=f"You sent {len(data.message)} characters. Max 10 characters allowed!",
+            detail=f"Message cannot be empty or more than 10 chars",
         )
     result = tweets_db.create_document(
         {"message": data.message, "date": pendulum.now().to_w3c_string()}
