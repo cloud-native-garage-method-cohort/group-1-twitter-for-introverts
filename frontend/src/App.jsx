@@ -69,7 +69,7 @@ function App() {
           className="twitter-logo"
           alt="Twitter Logo"
         />
-        for Introverts
+        for Introverts !
       </h1>
 
       <form onSubmit={onSendMessage} className="message-form">
