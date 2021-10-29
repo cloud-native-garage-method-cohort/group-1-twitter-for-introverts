@@ -18,8 +18,10 @@ body {
 }
 
 .app {
-  width: 750px;
+  width: 100%;
+  max-width: 750px;
   margin: 40px auto;
+  padding: 30px;
 }
 
 .app-name {
@@ -78,6 +80,9 @@ body {
   font-family: inherit;
   cursor: pointer;
   font-weight: bold;
+}
+.message-send-btn:disabled {
+  opacity: 0.5;
 }
 
 .messages-list {

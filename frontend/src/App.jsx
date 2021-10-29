@@ -1,25 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [allMessages, setAllMessages] = useState([
-    { id: 1, date: "28/10/21", message: "Whats up?" },
-    { id: 2, date: "28/10/21", message: "Hi!" },
-  ]);
+  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [allMessages, setAllMessages] = useState([]);
   const [messageField, setMessageField] = useState("");
+  const [sending, setSending] = useState(false);
 
-  const onSendMessage = (e) => {
-    e.preventDefault();
-
-    const newMessage = {
-      id: allMessages.length + 1,
-      date: "28/10/21",
-      message: messageField,
+  useEffect(() => {
+    const getMessages = async () => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}`
+        );
+        setAllMessages(data.messages);
+        setLoadingMessages(false);
+      } catch (error) {
+        alert("Could not load existing messages");
+      }
     };
 
-    // Make an API request
+    getMessages();
+  }, []);
 
-    setAllMessages([newMessage, ...allMessages]);
+  const onSendMessage = async (e) => {
+    e.preventDefault();
+    setSending(true);
+
+    // Make an API request
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}`,
+        {
+          message: messageField,
+        }
+      );
+
+      setAllMessages([data.new_message, ...allMessages]);
+      setMessageField("");
+    } catch (error) {
+      alert("Oh no you screwed something up!");
+    }
+
+    setSending(false);
   };
 
   return (
@@ -49,8 +73,8 @@ function App() {
             {10 - messageField.length} character
             {10 - messageField.length !== 1 ? "s" : ""} left
           </div>
-          <button type="submit" className="message-send-btn">
-            Send
+          <button type="submit" className="message-send-btn" disabled={sending}>
+            {sending ? "Sending..." : "Send"}
           </button>
         </div>
       </form>
@@ -58,12 +82,22 @@ function App() {
       <div className="messages-list">
         <h3 className="messages-list-title">Recent Messages</h3>
 
-        {allMessages.map(({ id, date, message }) => (
-          <div className="messages-list-msg" key={id}>
-            <div className="msg-date">{date}</div>
-            <div className="message">{message}</div>
-          </div>
-        ))}
+        {loadingMessages
+          ? "Loading messages..."
+          : allMessages.map(({ id, date, message }) => (
+              <div className="messages-list-msg" key={id}>
+                <div className="msg-date">
+                  {new Date(date).toLocaleDateString("en-GB", {
+                    year: "numeric",
+                    month: "numeric",
+                    day: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </div>
+                <div className="message">{message}</div>
+              </div>
+            ))}
       </div>
     </div>
   );
