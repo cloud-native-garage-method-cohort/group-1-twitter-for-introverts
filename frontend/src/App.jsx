@@ -7,6 +7,7 @@ function App() {
   const [allMessages, setAllMessages] = useState([]);
   const [messageField, setMessageField] = useState("");
   const [sending, setSending] = useState(false);
+  const [editingMessages, setEditingMessages] = useState(false);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -26,6 +27,8 @@ function App() {
 
   const onSendMessage = async (e) => {
     e.preventDefault();
+
+    if (!messageField.trim()) return false;
     setSending(true);
 
     // Make an API request
@@ -40,10 +43,22 @@ function App() {
       setAllMessages([data.new_message, ...allMessages]);
       setMessageField("");
     } catch (error) {
-      alert("Oh no you screwed something up!");
+      alert("Error sending message");
     }
 
     setSending(false);
+  };
+
+  const onDeleteMessage = async (idToDelete) => {
+    try {
+      setAllMessages(allMessages.filter(({ id }) => id !== idToDelete));
+
+      await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URL}/delete/${idToDelete}`
+      );
+    } catch (error) {
+      alert("Could not delete message");
+    }
   };
 
   return (
@@ -73,14 +88,25 @@ function App() {
             {10 - messageField.length} character
             {10 - messageField.length !== 1 ? "s" : ""} left
           </div>
-          <button type="submit" className="message-send-btn" disabled={sending}>
+          <button
+            type="submit"
+            className="message-send-btn"
+            disabled={sending || !messageField.trim()}
+          >
             {sending ? "Sending..." : "Send"}
           </button>
         </div>
       </form>
 
       <div className="messages-list">
-        <h3 className="messages-list-title">Recent Messages</h3>
+        <h3 className="messages-list-title">
+          <div>Recent Messages</div>
+          <input
+            type="checkbox"
+            checked={editingMessages}
+            onChange={(e) => setEditingMessages(e.target.checked)}
+          />
+        </h3>
 
         {loadingMessages
           ? "Loading messages..."
@@ -96,6 +122,14 @@ function App() {
                   })}
                 </div>
                 <div className="message">{message}</div>
+                {editingMessages && (
+                  <button
+                    className="message-delete"
+                    onClick={() => onDeleteMessage(id)}
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             ))}
       </div>
